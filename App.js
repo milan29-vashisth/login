@@ -1,31 +1,53 @@
 import { StatusBar } from 'expo-status-bar';
-import React ,{useState}from 'react';
-import { StyleSheet, Text, View ,TextInput,Button,Image,Alert, TouchableOpacity,} from 'react-native';
+import React ,{useState} from 'react';
+import { StyleSheet, Text, View,TextInput,Button,Image,Alert, TouchableOpacity, } from 'react-native';
 
 export default function App() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    return (
-      <View style={styles.container}>
-         <Image source={require("./assets/favicon.png")} />
-         <View style={styles.inputView}>
-        <TextInput
-            style={styles.TextInput}
-            placeholder="Email..."
-            placeholderTextColor="#003f5c"
-            onChangeText={(email) => setEmail(email)}
-          />
-          </View>
-          <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Password."
-            placeholderTextColor="#003f5c"
-            secureTextEntry={true}
-            onChangeText={(password) => setPassword(password)}
-          />
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [emailErr, setEmailErr] = useState({});
+
+  function handleChange(event)  {
+
+    //var text = e.target.value;
+    console.log("test5 " + event);
+    let reg = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+    if (!reg.test(event)) {
+      console.warn("Email is Not Correct");
+    }
+    else {
+      console.warn("Email is Correct");
+    }
+  }
+  return (
+    <View style={styles.container}>
+       <Image source={require("./assets/favicon.png")} />
+       <View style={styles.inputView}>
+      <TextInput
+          style={styles.TextInput}
+          value = {email}
+          placeholder="Email..."
+          placeholderTextColor="#003f5c"
+          onChangeText={(value) =>{ 
+            setEmail({value})
+            handleChange(value)
+          }}
+         
+        />
         </View>
-        <TouchableOpacity>
+        <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Password."
+          placeholderTextColor="#003f5c"
+          secureTextEntry={true}
+          keyboardType="numeric"
+          maxLength={7}
+          onChangeText={(password) => setPassword(password)}
+        />
+      </View>
+ 
+      <TouchableOpacity>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
       </TouchableOpacity>
  
@@ -38,7 +60,6 @@ export default function App() {
     </View>
   );
 }
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -84,4 +105,5 @@ const styles = StyleSheet.create({
     marginTop:10,
     marginBottom:10
 },
+
 });
